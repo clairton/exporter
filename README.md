@@ -32,6 +32,10 @@ Necessário adicionar os repositórios maven:
 	<id>mvn-repo-snapshot</id>
 	<url>https://raw.github.com/clairton/mvn-repo/snapshots</url>
 </repository>
+<repository>
+	<id>fdvsolution.public</id>
+	<url>http://archiva.fdvs.com.ar/repository/public1/</url>
+</repository>
 ```
  Também adicionar as depêndencias:
 ```xml

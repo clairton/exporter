@@ -5,6 +5,7 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Date;
@@ -26,7 +27,7 @@ public class AutoReportTest {
 		service.export(collection, path);
 		assertTrue(new File(path).exists());
 		final Path file = new File(path).toPath();
-		assertFalse(readAllLines(file).isEmpty());
+		assertFalse(readAllLines(file, Charset.forName("UTF-8")).isEmpty());
 	}
 
 	private String variable() {
