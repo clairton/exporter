@@ -17,6 +17,9 @@ Service service = new Service(new AutoReport(new Matcher<Field>() {
 	}
 }));
 ```
+Cabeçalho e rodapé podem ser personalizado sobreescrevendo os métodos header e footer da classe Report,
+parametro que é recebido no construtor de service.
+
 
 Necessário adicionar os repositórios maven:
 
