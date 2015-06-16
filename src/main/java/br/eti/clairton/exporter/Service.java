@@ -23,10 +23,10 @@ public class Service {
 		this.report = report;
 	}
 
-	public <T> void export(final Collection<T> collection, final String path) throws Exception {
+	public <T> void export(final Collection<T> collection, final Map<String, Object> parameters, final String path) throws Exception {
 		for (final Pattern pattern : options.keySet()) {
 			if (pattern.matcher(path).find()) {
-				final JasperPrint jp = report.build(collection);
+				final JasperPrint jp = report.build(collection, parameters);
 				options.get(pattern).run(jp, path);
 				return;
 			}

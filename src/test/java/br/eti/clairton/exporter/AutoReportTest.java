@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class AutoReportTest {
 		final String path = "target/report" + variable() + ".html";
 		final Collection<Person> collection = datasource();
 		assertFalse(new File(path).exists());
-		service.export(collection, path);
+		service.export(collection, new HashMap<String, Object>(), path);
 		assertTrue(new File(path).exists());
 		final Path file = new File(path).toPath();
 		assertFalse(readAllLines(file, Charset.forName("UTF-8")).isEmpty());

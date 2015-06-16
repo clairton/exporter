@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JasperPrint;
 import net.vidageek.mirror.dsl.Mirror;
@@ -11,7 +12,6 @@ import net.vidageek.mirror.list.dsl.Mapper;
 import net.vidageek.mirror.list.dsl.Matcher;
 import net.vidageek.mirror.list.dsl.MirrorList;
 import net.vidageek.mirror.reflect.dsl.AllReflectionHandler;
-import ar.com.fdvs.dj.domain.DynamicReport;
 import ar.com.fdvs.dj.domain.builders.ReflectiveReportBuilder;
 
 public class AutoReport extends Report<ReflectiveReportBuilder> {
@@ -23,12 +23,13 @@ public class AutoReport extends Report<ReflectiveReportBuilder> {
 		}
 	};
 	private final Matcher<Field> matcher;
-	private Collection<?> collection;
+	private ReflectiveReportBuilder builder;
 
 	public AutoReport() {
 		this(new Matcher<Field>() {
 
-			public boolean accepts(final Field element) {
+			@Override
+			public boolean accepts(Field element) {
 				return true;
 			}
 		});
@@ -40,24 +41,19 @@ public class AutoReport extends Report<ReflectiveReportBuilder> {
 	}
 
 	@Override
-	public <W> JasperPrint build(final Collection<W> collection)
+	public <W> JasperPrint build(final Collection<W> collection, final Map<String, Object> parameters)
 			throws Exception {
-		this.collection = collection;
-		return super.build(collection);
-	}
-
-	@Override
-	public DynamicReport build(final ReflectiveReportBuilder builder)
-			throws Exception {
+		final String[] columns;
 		if (collection.isEmpty()) {
-			return super.build(builder);
+			columns = new String[] {};
 		} else {
-			final String[] columns = columns();
-			return new ReflectiveReportBuilder(collection, columns).build();
+			columns = columns(collection);
 		}
+		builder = new ReflectiveReportBuilder(collection, columns);
+		return build(builder.build(), parameters);
 	}
 
-	public String[] columns() {
+	public <W> String[] columns(final Collection<W> collection) {
 		final Iterator<?> iterator = collection.iterator();
 		final Class<?> klazz = iterator.next().getClass();
 		final AllReflectionHandler<?> handler = mirror.on(klazz).reflectAll();
@@ -74,7 +70,6 @@ public class AutoReport extends Report<ReflectiveReportBuilder> {
 	void footer(final ReflectiveReportBuilder builder) throws Exception {
 	}
 
-	@Override
-	void content(final ReflectiveReportBuilder builder) throws Exception {
+	<W> void content(ReflectiveReportBuilder builder, final Collection<W> collection) throws Exception {
 	}
 }

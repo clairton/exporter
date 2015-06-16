@@ -7,10 +7,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
 import ar.com.fdvs.dj.core.layout.LayoutManager;
 import ar.com.fdvs.dj.domain.DynamicReport;
@@ -25,28 +23,30 @@ public abstract class Report<T extends DynamicReportBuilder> {
 		this.builder = builder;
 	}
 
-	public <W> JasperPrint build(final Collection<W> collection) throws Exception {
-		final DynamicReport dynamic = build(builder);
-		final JRDataSource ds = new JRBeanCollectionDataSource(collection);
-		final Map<String, Object> parameters = new HashMap<String, Object>();
-		final JasperReport jr = generateJasperReport(dynamic, layout(), parameters);
-		return fillReport(jr, parameters, ds);
-	}
-
 	public LayoutManager layout() {
 		return new ClassicLayoutManager();
 	}
 
-	public DynamicReport build(T builder) throws Exception{
+	public <W>JasperPrint build(final Collection<W> collection, final Map<String, Object> parameters) throws Exception{
 		header(builder);
-		content(builder);
+		content(builder, collection);
 		footer(builder);
-		return builder.build();
+		final DynamicReport dynamic = builder.build();
+		return build(dynamic, parameters);
+	}
+
+	public <W>JasperPrint build(final Collection<W> collection) throws Exception{
+		return build(collection, new HashMap<String, Object>());
+	}
+	
+	public JasperPrint build(DynamicReport report, final Map<String, Object> parameters) throws Exception{
+		final JasperReport jr = generateJasperReport(report, layout(), parameters);
+		return fillReport(jr, parameters);		
 	}
 
 	abstract void header(T builder) throws Exception ;
 
 	abstract void footer(T builder) throws Exception ;
 
-	abstract void content(T builder) throws Exception ;
+	abstract <W>void content(T builder, final Collection<W> collection) throws Exception ;
 }
