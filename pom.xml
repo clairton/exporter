@@ -128,7 +128,7 @@
 	<repositories>
 		<repository>
 			<id>fdvsolution.public</id>
-			<url>http://archiva.fdvs.com.ar/repository/public1/</url>
+			<url>http://archiva.fdvs.com.ar/repository/public1</url>
 		</repository>
 	</repositories>
 </project>
