@@ -4,6 +4,11 @@
 	<groupId>br.eti.clairton</groupId>
 	<artifactId>exporter</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
+	<scm>
+		<connection>scm:git:git@github.com:clairton/exporter.git</connection>
+		<url>scm:git:git@github.com:clairton/exporter.git</url>
+		<developerConnection>scm:git:git@github.com:clairton/exporter.git</developerConnection>
+	</scm>
 
 	<dependencies>
 		<dependency>
