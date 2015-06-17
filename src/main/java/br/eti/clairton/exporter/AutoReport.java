@@ -50,7 +50,7 @@ public class AutoReport extends Report<ReflectiveReportBuilder> {
 			columns = columns(collection);
 		}
 		builder = new ReflectiveReportBuilder(collection, columns);
-		return build(builder.build(), parameters);
+		return build(builder.build(), collection, parameters);
 	}
 
 	public <W> String[] columns(final Collection<W> collection) {

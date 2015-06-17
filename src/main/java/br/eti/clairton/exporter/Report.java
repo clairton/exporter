@@ -7,8 +7,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
 import ar.com.fdvs.dj.core.layout.LayoutManager;
 import ar.com.fdvs.dj.domain.DynamicReport;
@@ -32,16 +34,18 @@ public abstract class Report<T extends DynamicReportBuilder> {
 		content(builder, collection);
 		footer(builder);
 		final DynamicReport dynamic = builder.build();
-		return build(dynamic, parameters);
+		
+		return build(dynamic, collection, parameters);
 	}
 
 	public <W>JasperPrint build(final Collection<W> collection) throws Exception{
 		return build(collection, new HashMap<String, Object>());
 	}
 	
-	public JasperPrint build(DynamicReport report, final Map<String, Object> parameters) throws Exception{
+	public <W>JasperPrint build(DynamicReport report, final Collection<W> collection, final Map<String, Object> parameters) throws Exception{
 		final JasperReport jr = generateJasperReport(report, layout(), parameters);
-		return fillReport(jr, parameters);		
+		final JRDataSource ds = new JRBeanCollectionDataSource(collection);
+		return fillReport(jr, parameters, ds);		
 	}
 
 	abstract void header(T builder) throws Exception ;
