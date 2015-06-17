@@ -13,6 +13,7 @@ public class Service {
 		{
 			put(Pattern.compile(".*\\.pdf"), Writer.PDF);
 			put(Pattern.compile(".*\\.xls"), Writer.XLS);
+			put(Pattern.compile(".*\\.csv"), Writer.CSV);
 			put(Pattern.compile(".*\\.html"), Writer.HTML);
 		}
 	};

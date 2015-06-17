@@ -14,7 +14,7 @@ public class BasicReport extends Report<FastReportBuilder> {
 
 	@Override
 	void header(final FastReportBuilder builder) throws Exception  {
-		builder.setTitle("November \"2006\" sales report");
+		builder.setTitle("Test Report");
 		builder.setReportLocale(new Locale("pt", "BR"));
 	}
 

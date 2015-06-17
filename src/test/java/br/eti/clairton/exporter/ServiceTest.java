@@ -2,6 +2,7 @@ package br.eti.clairton.exporter;
 
 import static java.nio.file.Files.readAllLines;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -19,12 +20,12 @@ import br.eti.clairton.exporter.Service;
 
 public class ServiceTest {
 
-	private final List<String> extensions = asList(new String[] { ".xls", ".pdf", ".html" });
+	private final List<String> extensions = asList(new String[] { ".xls", ".pdf", ".html", ".csv" });
 
 	@Test
 	public void testExport() throws Exception {
-		final Service service = new Service(new BasicReport());
 		for (final String extension : extensions) {
+			final Service service = new Service(new BasicReport());
 			final String path = "target/report" + variable() + extension;
 			final Collection<Person> collection = datasource();
 			assertFalse(new File(path).exists());
@@ -33,6 +34,9 @@ public class ServiceTest {
 			if (".html".equals(extension)) {
 				final Path file = new File(path).toPath();
 				assertFalse(readAllLines(file, Charset.forName("UTF-8")).isEmpty());
+			} else if (".csv".equals(extension)) {
+				final Path file = new File(path).toPath();
+				assertEquals(3, readAllLines(file, Charset.forName("UTF-8")).size());
 			}
 		}
 	}	
