@@ -141,10 +141,10 @@
 			<url>git:snapshots://git@github.com:clairton/mvn-repo.git</url>
 		</snapshotRepository>
 	</distributionManagement>
-	<repositories>
+	<!--<repositories>
 		<repository>
 			<id>fdvsolution.public</id>
 			<url>http://archiva.fdvs.com.ar/repository/public1</url>
 		</repository>
-	</repositories>
+	</repositories>-->
 </project>
