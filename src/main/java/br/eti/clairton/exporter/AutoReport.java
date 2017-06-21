@@ -63,13 +63,13 @@ public class AutoReport extends Report<ReflectiveReportBuilder> {
 	}
 
 	@Override
-	void header(final ReflectiveReportBuilder builder) throws Exception {
+	protected void header(final ReflectiveReportBuilder builder) throws Exception {
 	}
 
 	@Override
-	void footer(final ReflectiveReportBuilder builder) throws Exception {
+	protected void footer(final ReflectiveReportBuilder builder) throws Exception {
 	}
 
-	<W> void content(ReflectiveReportBuilder builder, final Collection<W> collection) throws Exception {
+	protected <W> void content(ReflectiveReportBuilder builder, final Collection<W> collection) throws Exception {
 	}
 }

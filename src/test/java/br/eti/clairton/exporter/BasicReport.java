@@ -13,17 +13,17 @@ public class BasicReport extends Report<FastReportBuilder> {
 	}
 
 	@Override
-	void header(final FastReportBuilder builder) throws Exception  {
+	protected void header(final FastReportBuilder builder) throws Exception  {
 		builder.setTitle("Test Report");
 		builder.setReportLocale(new Locale("pt", "BR"));
 	}
 
 	@Override
-	void footer(final FastReportBuilder builder)  throws Exception {
+	protected void footer(final FastReportBuilder builder)  throws Exception {
 	}
 
 	@Override
-	<W>void content(final FastReportBuilder builder, final Collection<W> collection) throws Exception {
+	protected <W>void content(final FastReportBuilder builder, final Collection<W> collection) throws Exception {
 		builder.addColumn("name", "name", String.class, 30);
 		builder.setUseFullPageWidth(true);
 	}

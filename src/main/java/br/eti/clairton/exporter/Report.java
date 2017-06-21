@@ -18,39 +18,40 @@ import ar.com.fdvs.dj.domain.builders.DynamicReportBuilder;
 
 public abstract class Report<T extends DynamicReportBuilder> {
 
-	private final T builder;
+  private final T builder;
 
-	public Report(final T builder) {
-		super();
-		this.builder = builder;
-	}
+  public Report(final T builder) {
+    super();
+    this.builder = builder;
+  }
 
-	public LayoutManager layout() {
-		return new ClassicLayoutManager();
-	}
+  public LayoutManager layout() {
+    return new ClassicLayoutManager();
+  }
 
-	public <W>JasperPrint build(final Collection<W> collection, final Map<String, Object> parameters) throws Exception{
-		header(builder);
-		content(builder, collection);
-		footer(builder);
-		final DynamicReport dynamic = builder.build();
-		
-		return build(dynamic, collection, parameters);
-	}
+  public <W> JasperPrint build(final Collection<W> collection, final Map<String, Object> parameters) throws Exception {
+    header(builder);
+    content(builder, collection);
+    footer(builder);
+    final DynamicReport dynamic = builder.build();
 
-	public <W>JasperPrint build(final Collection<W> collection) throws Exception{
-		return build(collection, new HashMap<String, Object>());
-	}
-	
-	public <W>JasperPrint build(DynamicReport report, final Collection<W> collection, final Map<String, Object> parameters) throws Exception{
-		final JasperReport jr = generateJasperReport(report, layout(), parameters);
-		final JRDataSource ds = new JRBeanCollectionDataSource(collection);
-		return fillReport(jr, parameters, ds);		
-	}
+    return build(dynamic, collection, parameters);
+  }
 
-	abstract void header(T builder) throws Exception ;
+  public <W> JasperPrint build(final Collection<W> collection) throws Exception {
+    return build(collection, new HashMap<String, Object>());
+  }
 
-	abstract void footer(T builder) throws Exception ;
+  public <W> JasperPrint build(DynamicReport report, final Collection<W> collection,
+      final Map<String, Object> parameters) throws Exception {
+    final JasperReport jr = generateJasperReport(report, layout(), parameters);
+    final JRDataSource ds = new JRBeanCollectionDataSource(collection);
+    return fillReport(jr, parameters, ds);
+  }
 
-	abstract <W>void content(T builder, final Collection<W> collection) throws Exception ;
+  abstract protected void header(T builder) throws Exception;
+
+  abstract protected void footer(T builder) throws Exception;
+
+  abstract protected <W> void content(T builder, final Collection<W> collection) throws Exception;
 }
